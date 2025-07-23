@@ -4,7 +4,7 @@
 FROM php:8.2-fpm
 
 # Set working directory
-WORKDIR /var/www/html
+WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -62,26 +62,26 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY docker/php/local.ini /usr/local/etc/php/conf.d/local.ini
 
 # Create storage directories
-RUN mkdir -p /var/www/html/storage/logs \
-    && mkdir -p /var/www/html/storage/cache \
-    && mkdir -p /var/www/html/storage/sessions \
-    && mkdir -p /var/www/html/storage/uploads
+RUN mkdir -p /app/storage/logs \
+    && mkdir -p /app/storage/cache \
+    && mkdir -p /app/storage/sessions \
+    && mkdir -p /app/storage/uploads
 
 # Create entrypoint script to fix permissions at runtime
 RUN echo '#!/bin/bash\n\
 echo "Fixing permissions..."\n\
 # Create all necessary directories\n\
-mkdir -p /var/www/html/storage/{logs,cache,sessions,uploads}\n\
-mkdir -p /var/www/html/lib\n\
-mkdir -p /var/www/html/pages\n\
-mkdir -p /var/www/html/assets\n\
+mkdir -p /app/storage/{logs,cache,sessions,uploads}\n\
+mkdir -p /app/lib\n\
+mkdir -p /app/pages\n\
+mkdir -p /app/assets\n\
 \n\
 # Fix ownership for the entire application\n\
-chown -R www-data:www-data /var/www/html\n\
+chown -R www-data:www-data /app\n\
 \n\
 # Set permissions\n\
-chmod -R 755 /var/www/html\n\
-chmod -R 777 /var/www/html/storage\n\
+chmod -R 755 /app\n\
+chmod -R 777 /app/storage\n\
 \n\
 echo "Permissions fixed. Starting PHP-FPM as www-data..."\n\
 # Start PHP-FPM as www-data user\n\
@@ -89,7 +89,7 @@ exec gosu www-data php-fpm\n\
 ' > /usr/local/bin/docker-entrypoint.sh && chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Copy application code
-COPY . /var/www/html/
+COPY . /app/
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
