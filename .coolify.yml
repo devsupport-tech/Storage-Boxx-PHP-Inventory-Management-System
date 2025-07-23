@@ -1,0 +1,56 @@
+# Coolify Configuration for Storage Boxx PHP Inventory Management System
+# This file tells Coolify how to deploy this application
+
+# Specify that this is a Docker Compose application
+type: docker-compose
+
+# Use the main docker-compose.yml file
+docker_compose_file: docker-compose.yml
+
+# Main service that should receive traffic
+main_service: nginx
+
+# Port mapping
+ports:
+  - target: 80
+    published: 80
+    protocol: tcp
+  - target: 443
+    published: 443
+    protocol: tcp
+
+# Health check endpoint
+healthcheck:
+  test: ["CMD", "curl", "-f", "http://localhost/health"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 40s
+
+# Environment variables (these will be set in Coolify UI)
+environment:
+  - APP_ENV=production
+  - APP_DEBUG=false
+  - APP_URL=https://inventory.thesupplycircuit.co
+
+# Domain configuration
+domains:
+  - inventory.thesupplycircuit.co
+
+# SSL/TLS configuration
+ssl: true
+
+# Build configuration
+build:
+  # Use Docker Compose for building
+  dockerfile: docker/php/Dockerfile
+  context: .
+
+# Restart policy
+restart: unless-stopped
+
+# Labels for Coolify management
+labels:
+  - "coolify.managed=true"
+  - "coolify.type=docker-compose"
+  - "coolify.name=storage-boxx"

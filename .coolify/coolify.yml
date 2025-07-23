@@ -1,0 +1,42 @@
+# Coolify Configuration for Storage Boxx
+# This ensures Coolify deploys the PHP application correctly
+
+type: docker-compose
+dockerfile: docker/php/Dockerfile
+docker_compose_file: docker-compose.yml
+
+# Build configuration
+build:
+  type: docker
+  dockerfile_location: docker/php/Dockerfile
+  docker_compose_location: docker-compose.yml
+
+# Environment configuration
+environment:
+  APP_ENV: production
+  APP_DEBUG: false
+  APP_URL: https://inventory.thesupplycircuit.co
+
+# Port configuration
+ports:
+  - "80:80"
+  - "443:443"
+
+# Health check
+healthcheck:
+  path: /health
+  port: 80
+  interval: 30
+
+# Domain configuration
+domains:
+  - inventory.thesupplycircuit.co
+
+# SSL configuration
+ssl: true
+
+# Deploy configuration
+deploy:
+  restart_policy: unless-stopped
+  networks:
+    - storage-boxx-network
