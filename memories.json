@@ -100,8 +100,8 @@
       ],
       "timestamp": "2025-07-23T21:54:30.852Z",
       "context": "Storage Boxx deployment troubleshooting - Coolify was deploying wrong application",
-      "accessCount": 0,
-      "lastAccessed": "2025-07-23T21:54:30.852Z",
+      "accessCount": 1,
+      "lastAccessed": "2025-07-23T22:06:15.153Z",
       "lastVerified": "2025-07-23T21:54:30.852Z",
       "status": "fresh"
     },
@@ -119,8 +119,8 @@
       ],
       "timestamp": "2025-07-23T21:58:23.757Z",
       "context": "Storage Boxx Coolify deployment logs showing successful container rollout",
-      "accessCount": 0,
-      "lastAccessed": "2025-07-23T21:58:23.757Z",
+      "accessCount": 1,
+      "lastAccessed": "2025-07-23T22:06:15.153Z",
       "lastVerified": "2025-07-23T21:58:23.757Z",
       "status": "fresh"
     },
@@ -138,8 +138,8 @@
       ],
       "timestamp": "2025-07-23T21:58:46.567Z",
       "context": "Testing deployed Storage Boxx application access",
-      "accessCount": 0,
-      "lastAccessed": "2025-07-23T21:58:46.567Z",
+      "accessCount": 1,
+      "lastAccessed": "2025-07-23T22:06:15.153Z",
       "lastVerified": "2025-07-23T21:58:46.567Z",
       "status": "fresh"
     },
@@ -158,8 +158,8 @@
       ],
       "timestamp": "2025-07-23T21:59:54.236Z",
       "context": "Fixing PHP permission error after successful Coolify deployment",
-      "accessCount": 0,
-      "lastAccessed": "2025-07-23T21:59:54.236Z",
+      "accessCount": 1,
+      "lastAccessed": "2025-07-23T22:06:15.153Z",
       "lastVerified": "2025-07-23T21:59:54.236Z",
       "status": "fresh"
     }
