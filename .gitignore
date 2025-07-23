@@ -1,0 +1,67 @@
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Docker volumes
+docker/nginx/logs/*
+docker/nginx/ssl/*
+!docker/nginx/ssl/.gitkeep
+docker/mysql/data/*
+docker/postgresql/data/*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+storage/logs/*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Backup files
+*.bak
+*.backup
+
+# Node modules (if any)
+node_modules/
+
+# Lock files
+*.lock
+package-lock.json
+composer.lock
+yarn.lock
+
+# Composer
+vendor/
+
+# Storage directories
+storage/app/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+
+# SSL certificates
+*.pem
+*.crt
+*.key
+
+# Cache
+cache/
+*.cache

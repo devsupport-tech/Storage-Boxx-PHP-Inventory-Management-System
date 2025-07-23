@@ -1,0 +1,90 @@
+{
+  "memories": [
+    {
+      "id": "mem_1753303290999_1de6i178x",
+      "content": "Starting comprehensive analysis of Storage-Boxx-PHP-Inventory-Management-System codebase. Need to understand: project structure, key files, database, architecture, authentication, frontend stack, build processes, and testing setup.",
+      "type": "config",
+      "tags": [
+        "config",
+        "php",
+        "database",
+        "authentication",
+        "testing",
+        "codebase-analysis",
+        "inventory-management",
+        "architecture"
+      ],
+      "timestamp": "2025-07-23T20:41:30.999Z",
+      "context": "Initial codebase analysis request",
+      "accessCount": 0,
+      "lastAccessed": "2025-07-23T20:41:30.999Z",
+      "lastVerified": "2025-07-23T20:41:30.999Z",
+      "status": "fresh"
+    },
+    {
+      "id": "mem_1753303349265_f3wruyav0",
+      "content": "COMPLETE CODEBASE ANALYSIS STORAGE BOXX PHP INVENTORY SYSTEM:\n\n**ARCHITECTURE**: Custom PHP framework (Core Boxx) with MVC-like pattern\n- Entry: index.php → CORE-Install.php → CORE-Go.php\n- Framework: Custom CoreBoxx class with module loading, routing, and API handling\n- Database: MySQL with PDO, custom DB class wrapper\n- Session: JWT-based sessions stored in HTTP cookies\n- Authentication: Multi-method (password, WebAuthn, NFC, QR codes)\n\n**STRUCTURE**:\n- /lib/: Core framework files, APIs, libraries\n- /pages/: HTML page templates \n- /assets/: Frontend CSS/JS, images, vendor libraries\n- Configuration in CORE-Config.php\n\n**DATABASE**: 13 tables including users, items, suppliers, customers, deliveries, purchases, movements\n**FRONTEND**: Bootstrap 5, vanilla JS, PWA with service worker\n**FEATURES**: QR scanning, NFC, push notifications, passwordless auth, inventory tracking\n**NO TESTING** framework detected - manual testing only",
+      "type": "config",
+      "tags": [
+        "config",
+        "php",
+        "go",
+        "api",
+        "database",
+        "authentication",
+        "testing",
+        "codebase-analysis",
+        "architecture",
+        "inventory-system",
+        "summary"
+      ],
+      "timestamp": "2025-07-23T20:42:29.264Z",
+      "context": "Complete codebase analysis for future Claude instances",
+      "accessCount": 0,
+      "lastAccessed": "2025-07-23T20:42:29.264Z",
+      "lastVerified": "2025-07-23T20:42:29.264Z",
+      "status": "fresh"
+    },
+    {
+      "id": "mem_1753303733165_5chkf2scv",
+      "content": "Storage Boxx to Supabase migration analysis task: Need to examine SQL schema files in lib/ directory, database connection code in LIB-Core.php, database operation patterns, MySQL-specific features, and identify PostgreSQL compatibility issues for Supabase migration.",
+      "type": "general",
+      "tags": [
+        "general",
+        "php",
+        "database",
+        "storage-boxx",
+        "database-migration",
+        "supabase",
+        "mysql-to-postgresql"
+      ],
+      "timestamp": "2025-07-23T20:48:53.164Z",
+      "context": "Database migration planning for Storage Boxx PHP inventory system",
+      "accessCount": 0,
+      "lastAccessed": "2025-07-23T20:48:53.164Z",
+      "lastVerified": "2025-07-23T20:48:53.164Z",
+      "status": "fresh"
+    },
+    {
+      "id": "mem_1753303842318_c42gfnck7",
+      "content": "Storage Boxx Database Schema Analysis Complete:\n\nSCHEMA STRUCTURE:\n- 13 tables total: settings, users, users_hash, webpush, items, item_mvt, suppliers, suppliers_items, purchases, purchases_items, customers, deliveries, deliveries_items\n- Main entities: Users, Items, Suppliers, Customers, Purchases, Deliveries\n- Movement tracking via item_mvt table with datetime stamps\n- Hash authentication via users_hash table\n\nMYSQL-SPECIFIC FEATURES IDENTIFIED:\n1. Data Types: bigint(20), varchar(255), decimal(12,2), tinyint(1) - need PostgreSQL equivalents\n2. AUTO_INCREMENT - use PostgreSQL SERIAL or IDENTITY columns  \n3. ENGINE=InnoDB - PostgreSQL doesn't use engines\n4. CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci - PostgreSQL uses different collation syntax\n5. DEFAULT current_timestamp() - PostgreSQL uses NOW() or CURRENT_TIMESTAMP\n6. DATE_FORMAT() function - PostgreSQL uses to_char()\n7. REPLACE INTO statements - PostgreSQL uses ON CONFLICT DO UPDATE\n8. MySQL date format strings (%Y-%m-%d, %e %M %Y, etc.) - need PostgreSQL equivalents\n\nDATABASE CONNECTION:\n- Uses PDO with MySQL DSN: \"mysql:host=\".DB_HOST.\";dbname=\".DB_NAME.\";charset=\".DB_CHARSET\n- Standard PDO operations, parameterized queries - good for migration\n- Transaction support with start()/end() methods\n- Custom query helpers for insert/update/delete operations\n\nNO STORED PROCEDURES/TRIGGERS/FUNCTIONS found - simplifies migration",
+      "type": "config",
+      "tags": [
+        "config",
+        "database",
+        "authentication",
+        "storage-boxx",
+        "database-analysis",
+        "mysql-features",
+        "supabase-migration"
+      ],
+      "timestamp": "2025-07-23T20:50:42.318Z",
+      "context": "Database migration analysis findings for Storage Boxx to Supabase",
+      "accessCount": 0,
+      "lastAccessed": "2025-07-23T20:50:42.318Z",
+      "lastVerified": "2025-07-23T20:50:42.318Z",
+      "status": "fresh"
+    }
+  ],
+  "lastUpdated": "2025-07-23T20:50:42.318Z"
+}

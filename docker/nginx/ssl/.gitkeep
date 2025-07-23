@@ -1,0 +1,2 @@
+# This directory will contain SSL certificates
+# It's mounted as a volume for Let's Encrypt certbot
