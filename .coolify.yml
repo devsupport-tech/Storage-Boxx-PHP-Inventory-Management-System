@@ -1,8 +1,9 @@
 # Coolify Configuration for Storage Boxx PHP Inventory Management System
 # This file tells Coolify how to deploy this application
 
-# Specify that this is a Docker Compose application
+# FORCE Docker Compose deployment - do not auto-detect
 type: docker-compose
+build_pack: docker-compose
 
 # Use the main docker-compose.yml file
 docker_compose_file: docker-compose.yml
@@ -40,11 +41,16 @@ domains:
 # SSL/TLS configuration
 ssl: true
 
-# Build configuration
+# Build configuration - FORCE Docker Compose
 build:
-  # Use Docker Compose for building
-  dockerfile: docker/php/Dockerfile
+  # Use Docker Compose for building - ignore auto-detection
+  dockerfile: Dockerfile
   context: .
+  build_pack: docker-compose
+  
+# Disable auto-detection
+auto_deploy: false
+static_site: false
 
 # Restart policy
 restart: unless-stopped
