@@ -162,7 +162,49 @@
       "lastAccessed": "2025-07-23T22:06:15.153Z",
       "lastVerified": "2025-07-23T21:59:54.236Z",
       "status": "fresh"
+    },
+    {
+      "id": "mem_1753310039686_hb4rih5vz",
+      "content": "PHP-FPM failing to start due to permission error on stderr (/proc/self/fd/2). The gosu user switching is preventing PHP-FPM from writing to stderr. Container is in crash loop, Coolify rolled back to old container. Need to fix PHP-FPM configuration or user switching approach.",
+      "type": "config",
+      "tags": [
+        "config",
+        "php",
+        "php-fpm",
+        "stderr",
+        "permissions",
+        "gosu",
+        "coolify",
+        "deployment-error"
+      ],
+      "timestamp": "2025-07-23T22:33:59.686Z",
+      "context": "Diagnosing PHP-FPM startup failure in Coolify deployment",
+      "accessCount": 0,
+      "lastAccessed": "2025-07-23T22:33:59.686Z",
+      "lastVerified": "2025-07-23T22:33:59.686Z",
+      "status": "fresh"
+    },
+    {
+      "id": "mem_1753310106102_feybwuvoa",
+      "content": "Fixed PHP-FPM stderr permission issue by removing gosu user switching and adding custom PHP-FPM config. PHP-FPM now runs as root and drops privileges automatically. Created docker/php/php-fpm.conf with proper logging to stderr. Committed c12305c to fix container crashes.",
+      "type": "config",
+      "tags": [
+        "config",
+        "php",
+        "php-fpm",
+        "stderr",
+        "permissions",
+        "coolify",
+        "fix",
+        "deployment"
+      ],
+      "timestamp": "2025-07-23T22:35:06.102Z",
+      "context": "Resolving PHP-FPM deployment failure in Coolify",
+      "accessCount": 0,
+      "lastAccessed": "2025-07-23T22:35:06.102Z",
+      "lastVerified": "2025-07-23T22:35:06.102Z",
+      "status": "fresh"
     }
   ],
-  "lastUpdated": "2025-07-23T21:59:54.236Z"
+  "lastUpdated": "2025-07-23T22:35:06.102Z"
 }
