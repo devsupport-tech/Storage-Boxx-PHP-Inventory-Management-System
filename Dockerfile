@@ -61,6 +61,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy custom PHP configuration
 COPY docker/php/local.ini /usr/local/etc/php/conf.d/local.ini
+COPY docker/php/php-fpm.conf /usr/local/etc/php-fpm.conf
 
 # Create storage directories
 RUN mkdir -p /app/storage/logs \
@@ -84,9 +85,13 @@ chown -R www-data:www-data /app\n\
 chmod -R 755 /app\n\
 chmod -R 777 /app/storage\n\
 \n\
-echo "Permissions fixed. Starting PHP-FPM as www-data..."\n\
-# Start PHP-FPM as www-data user\n\
-exec gosu www-data php-fpm\n\
+# Create PHP-FPM log directory with proper permissions\n\
+mkdir -p /var/log/php-fpm\n\
+chown www-data:www-data /var/log/php-fpm\n\
+\n\
+echo "Permissions fixed. Starting PHP-FPM..."\n\
+# Start PHP-FPM with custom configuration\n\
+exec php-fpm --nodaemonize --fpm-config /usr/local/etc/php-fpm.conf\n\
 ' > /usr/local/bin/docker-entrypoint.sh && chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Copy application code
