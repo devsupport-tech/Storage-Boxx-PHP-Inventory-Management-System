@@ -84,7 +84,27 @@
       "lastAccessed": "2025-07-23T20:50:42.318Z",
       "lastVerified": "2025-07-23T20:50:42.318Z",
       "status": "fresh"
+    },
+    {
+      "id": "mem_1753307670852_jucxzwrky",
+      "content": "Coolify configuration files created to force proper PHP deployment. Key files:\n- .coolify.yml: Main Coolify config specifying docker-compose type\n- .coolify/coolify.yml and .coolify/docker-compose.yml: Backup configs\n- Dockerfile: Root-level symlink to docker/php/Dockerfile for Coolify compatibility\nThese should override auto-detection and deploy the PHP Storage Boxx app instead of React",
+      "type": "tip",
+      "tags": [
+        "tip",
+        "php",
+        "react",
+        "deployment",
+        "coolify",
+        "docker-compose",
+        "storage-boxx"
+      ],
+      "timestamp": "2025-07-23T21:54:30.852Z",
+      "context": "Storage Boxx deployment troubleshooting - Coolify was deploying wrong application",
+      "accessCount": 0,
+      "lastAccessed": "2025-07-23T21:54:30.852Z",
+      "lastVerified": "2025-07-23T21:54:30.852Z",
+      "status": "fresh"
     }
   ],
-  "lastUpdated": "2025-07-23T20:50:42.318Z"
+  "lastUpdated": "2025-07-23T21:54:30.852Z"
 }
