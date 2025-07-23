@@ -161,6 +161,11 @@ $storageDirs = [
 
 foreach ($storageDirs as $dir) {
     if (!is_dir($dir)) {
-        mkdir($dir, 0755, true);
+        // Try to create directory, but don't fail if we can't
+        if (@mkdir($dir, 0755, true)) {
+            error_log("Created storage directory: " . $dir);
+        } else {
+            error_log("Warning: Could not create storage directory: " . $dir . " (may already exist or need manual creation)");
+        }
     }
 }

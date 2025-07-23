@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     redis-tools \
+    gosu \
     && rm -rf /var/lib/apt/lists/*
 
 # Clear cache
@@ -65,14 +66,23 @@ RUN mkdir -p /var/www/html/storage/logs \
 
 # Create entrypoint script to fix permissions at runtime
 RUN echo '#!/bin/bash\n\
-# Fix permissions at runtime\n\
+echo "Fixing permissions..."\n\
+# Create all necessary directories\n\
 mkdir -p /var/www/html/storage/{logs,cache,sessions,uploads}\n\
+mkdir -p /var/www/html/lib\n\
+mkdir -p /var/www/html/pages\n\
+mkdir -p /var/www/html/assets\n\
+\n\
+# Fix ownership for the entire application\n\
 chown -R www-data:www-data /var/www/html\n\
+\n\
+# Set permissions\n\
 chmod -R 755 /var/www/html\n\
 chmod -R 777 /var/www/html/storage\n\
 \n\
-# Start PHP-FPM\n\
-exec php-fpm\n\
+echo "Permissions fixed. Starting PHP-FPM as www-data..."\n\
+# Start PHP-FPM as www-data user\n\
+exec gosu www-data php-fpm\n\
 ' > /usr/local/bin/docker-entrypoint.sh && chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Don't switch to www-data yet - need root for permission fixes
