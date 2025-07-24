@@ -204,7 +204,27 @@
       "lastAccessed": "2025-07-23T22:35:06.102Z",
       "lastVerified": "2025-07-23T22:35:06.102Z",
       "status": "fresh"
+    },
+    {
+      "id": "mem_1753312282630_9cxrdktsg",
+      "content": "Despite PHP-FPM fixes and Coolify configuration, React application is still running instead of Storage Boxx PHP app. Browser console shows React Router warnings. Coolify is still auto-detecting wrong application type even with .coolify.yml specifying docker-compose.",
+      "type": "config",
+      "tags": [
+        "config",
+        "php",
+        "react",
+        "coolify",
+        "wrong-app",
+        "auto-detection",
+        "storage-boxx"
+      ],
+      "timestamp": "2025-07-23T23:11:22.629Z",
+      "context": "Coolify still deploying wrong application after PHP-FPM fixes",
+      "accessCount": 0,
+      "lastAccessed": "2025-07-23T23:11:22.629Z",
+      "lastVerified": "2025-07-23T23:11:22.629Z",
+      "status": "fresh"
     }
   ],
-  "lastUpdated": "2025-07-23T22:35:06.102Z"
+  "lastUpdated": "2025-07-23T23:11:22.629Z"
 }
