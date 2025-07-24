@@ -15,3 +15,6 @@ cmds = [
 
 [variables]
 PHP_VERSION = "8.2"
+APP_URL = "https://inventory.thesupplycircuit.co"
+APP_ENV = "production"
+APP_DEBUG = "false"

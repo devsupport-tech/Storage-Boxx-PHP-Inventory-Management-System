@@ -1,9 +1,9 @@
 # Coolify Configuration for Storage Boxx PHP Inventory Management System
 # This file tells Coolify how to deploy this application
 
-# FORCE Docker Compose deployment - do not auto-detect
-type: docker-compose
-build_pack: docker-compose
+# Use Nixpacks for PHP deployment
+type: nixpacks
+build_pack: nixpacks
 
 # Use the Coolify-optimized docker-compose file
 docker_compose_file: docker-compose.yaml
@@ -26,11 +26,11 @@ healthcheck:
 environment:
   - APP_ENV=production
   - APP_DEBUG=false
-  - APP_URL=https://kocwkgc8g88gcsww4oowwogc.clientsupport.services
+  - APP_URL=https://inventory.thesupplycircuit.co
 
 # Domain configuration
 domains:
-  - kocwkgc8g88gcsww4oowwogc.clientsupport.services
+  - inventory.thesupplycircuit.co
 
 # SSL/TLS configuration
 ssl: true
