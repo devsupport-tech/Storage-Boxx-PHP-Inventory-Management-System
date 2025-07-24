@@ -1,0 +1,17 @@
+[phases.setup]
+nixPkgs = ["php82", "php82Extensions.pdo", "php82Extensions.pdo_mysql", "php82Extensions.pdo_pgsql", "php82Extensions.mbstring", "php82Extensions.zip", "php82Extensions.gd", "php82Extensions.redis"]
+
+[phases.build]
+cmds = [
+    "chmod -R 755 /app",
+    "chmod -R 777 /app/storage",
+    "chmod -R 777 /app/bootstrap/cache",
+    "mkdir -p /app/storage/logs",
+    "mkdir -p /app/storage/framework/cache",
+    "mkdir -p /app/storage/framework/sessions",
+    "mkdir -p /app/storage/framework/views",
+    "chmod -R 777 /app/storage",
+]
+
+[variables]
+PHP_VERSION = "8.2"
