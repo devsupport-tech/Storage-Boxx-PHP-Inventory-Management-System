@@ -20,11 +20,6 @@ healthcheck:
 environment:
   - APP_ENV=production
   - APP_DEBUG=false
-  - APP_URL=https://inventory.thesupplycircuit.co
-
-# Domain configuration
-domains:
-  - inventory.thesupplycircuit.co
 
 # SSL/TLS configuration
 ssl: true
