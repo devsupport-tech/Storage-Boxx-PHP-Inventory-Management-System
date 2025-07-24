@@ -1,0 +1,131 @@
+version: '3.8'
+
+services:
+  # Storage Boxx Application
+  app:
+    build: .
+    container_name: storage-boxx-app
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=${APP_URL:-http://localhost}
+      - DB_HOST=mysql
+      - DB_NAME=${DB_NAME:-storageboxx}
+      - DB_USER=${DB_USER:-storage}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=${POSTGRES_DB:-storageboxx}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+    volumes:
+      - storage_data:/var/www/html/storage
+      - ./storage/uploads:/var/www/html/storage/uploads
+    depends_on:
+      - mysql
+      - postgres
+      - redis
+    networks:
+      - storage-network
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # MySQL Database (Legacy Support)
+  mysql:
+    image: mysql:8.0
+    container_name: storage-boxx-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME:-storageboxx}
+      MYSQL_USER: ${DB_USER:-storage}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    networks:
+      - storage-network
+    command: --default-authentication-plugin=mysql_native_password
+
+  # PostgreSQL Database (Supabase Compatible)
+  postgres:
+    image: postgres:15-alpine
+    container_name: storage-boxx-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-storageboxx}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgresql/init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - storage-network
+
+  # Redis Cache & Sessions
+  redis:
+    image: redis:7-alpine
+    container_name: storage-boxx-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - storage-network
+
+  # Database Administration (Development)
+  adminer:
+    image: adminer:4-standalone
+    container_name: storage-boxx-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - storage-network
+    profiles:
+      - development
+
+  # Email Testing (Development)
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: storage-boxx-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - storage-network
+    profiles:
+      - development
+
+volumes:
+  storage_data:
+    driver: local
+  mysql_data:
+    driver: local
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  storage-network:
+    driver: bridge
