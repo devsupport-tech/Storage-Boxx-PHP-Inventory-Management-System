@@ -6,7 +6,7 @@ type: docker-compose
 build_pack: docker-compose
 
 # Use the Coolify-optimized docker-compose file
-docker_compose_file: docker-compose.coolify.yml
+docker_compose_file: docker-compose.yaml
 
 # Main service that should receive traffic
 main_service: app
