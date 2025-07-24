@@ -5,24 +5,21 @@
 type: docker-compose
 build_pack: docker-compose
 
-# Use the main docker-compose.yml file
-docker_compose_file: docker-compose.yml
+# Use the Coolify-optimized docker-compose file
+docker_compose_file: docker-compose.coolify.yml
 
 # Main service that should receive traffic
-main_service: nginx
+main_service: app
 
-# Port mapping
+# Port mapping - PHP-FPM for Coolify's reverse proxy
 ports:
-  - target: 80
-    published: 80
-    protocol: tcp
-  - target: 443
-    published: 443
+  - target: 9000
+    published: 9000
     protocol: tcp
 
-# Health check endpoint
+# Health check endpoint - Check PHP-FPM status
 healthcheck:
-  test: ["CMD", "curl", "-f", "http://localhost/health"]
+  test: ["CMD", "php-fpm", "-t"]
   interval: 30s
   timeout: 10s
   retries: 3
