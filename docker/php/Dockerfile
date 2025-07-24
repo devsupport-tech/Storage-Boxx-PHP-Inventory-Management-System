@@ -64,6 +64,25 @@ RUN mkdir -p /var/www/html/storage/logs \
     && mkdir -p /var/www/html/storage/sessions \
     && mkdir -p /var/www/html/storage/uploads
 
+# Create PHP-FPM pool configuration to fix logging issues
+RUN echo '[www]\n\
+user = www-data\n\
+group = www-data\n\
+listen = 9000\n\
+listen.owner = www-data\n\
+listen.group = www-data\n\
+listen.mode = 0660\n\
+pm = dynamic\n\
+pm.max_children = 5\n\
+pm.start_servers = 2\n\
+pm.min_spare_servers = 1\n\
+pm.max_spare_servers = 3\n\
+; Logging configuration\n\
+access.log = /proc/self/fd/2\n\
+catch_workers_output = yes\n\
+decorate_workers_output = no\n\
+' > /usr/local/etc/php-fpm.d/www.conf
+
 # Create entrypoint script to fix permissions at runtime
 RUN echo '#!/bin/bash\n\
 echo "Fixing permissions..."\n\
@@ -80,9 +99,9 @@ chown -R www-data:www-data /var/www/html\n\
 chmod -R 755 /var/www/html\n\
 chmod -R 777 /var/www/html/storage\n\
 \n\
-echo "Permissions fixed. Starting PHP-FPM as www-data..."\n\
-# Start PHP-FPM as www-data user\n\
-exec gosu www-data php-fpm\n\
+echo "Permissions fixed. Starting PHP-FPM..."\n\
+# Start PHP-FPM directly (not as www-data since FPM handles user switching)\n\
+exec php-fpm -F\n\
 ' > /usr/local/bin/docker-entrypoint.sh && chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Don't switch to www-data yet - need root for permission fixes
