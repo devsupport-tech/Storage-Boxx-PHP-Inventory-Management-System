@@ -9,17 +9,17 @@ build_pack: docker-compose
 docker_compose_file: docker-compose.yaml
 
 # Main service that should receive traffic
-main_service: app
+main_service: nginx
 
-# Port mapping - PHP-FPM for Coolify's reverse proxy
+# Port mapping - Nginx web server for Coolify's reverse proxy
 ports:
-  - target: 9000
-    published: 9000
+  - target: 80
+    published: 80
     protocol: tcp
 
-# Health check endpoint - Check PHP-FPM status
+# Health check endpoint - Check Nginx status
 healthcheck:
-  test: ["CMD", "php-fpm", "-t"]
+  test: ["CMD", "curl", "-f", "http://localhost/health"]
   interval: 30s
   timeout: 10s
   retries: 3

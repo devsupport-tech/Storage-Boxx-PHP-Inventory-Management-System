@@ -1,7 +1,22 @@
 version: '3.8'
 
 services:
-  # PHP Application - Direct exposure for Coolify
+  # Nginx Web Server for Coolify
+  nginx:
+    image: nginx:alpine
+    container_name: storage-boxx-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - storage-boxx-network
+    depends_on:
+      - app
+
+  # PHP Application - Backend for Nginx
   app:
     build:
       context: .
@@ -12,10 +27,6 @@ services:
     volumes:
       - .:/var/www/html
       - storage_data:/var/www/html/storage
-    ports:
-      - "9000:9000"  # Expose PHP-FPM for Coolify's reverse proxy
-    environment:
-      - PHP_IDE_CONFIG=serverName=storage-boxx
     networks:
       - storage-boxx-network
     depends_on:
