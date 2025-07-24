@@ -12,6 +12,7 @@ services:
       - .:/var/www/html
     command: >
       sh -c '
+      ls -la /tmp/nginx-config/ &&
       cp /tmp/nginx-config/default.conf /etc/nginx/conf.d/default.conf &&
       nginx -g "daemon off;"
       '
