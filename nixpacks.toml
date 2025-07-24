@@ -4,13 +4,13 @@ nixPkgs = ["php82", "php82Extensions.pdo", "php82Extensions.pdo_mysql", "php82Ex
 [phases.build]
 cmds = [
     "chmod -R 755 /app",
-    "chmod -R 777 /app/storage",
-    "chmod -R 777 /app/bootstrap/cache",
     "mkdir -p /app/storage/logs",
     "mkdir -p /app/storage/framework/cache",
     "mkdir -p /app/storage/framework/sessions",
     "mkdir -p /app/storage/framework/views",
+    "mkdir -p /app/bootstrap/cache",
     "chmod -R 777 /app/storage",
+    "chmod -R 777 /app/bootstrap/cache",
 ]
 
 [variables]
