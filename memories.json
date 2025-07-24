@@ -224,7 +224,46 @@
       "lastAccessed": "2025-07-23T23:11:22.629Z",
       "lastVerified": "2025-07-23T23:11:22.629Z",
       "status": "fresh"
+    },
+    {
+      "id": "mem_1753386100071_8n5mstq41",
+      "content": "User has been trying to deploy Storage Boxx on VPS via Coolify, initially with Docker but switched to Nixpacks. Getting \"no available server\" and \"bad gateway\" errors. Recent commits show removal of Docker files and nixpacks.toml to allow auto-detection. Project is a PHP inventory management system with Core Boxx framework.",
+      "type": "general",
+      "tags": [
+        "general",
+        "php",
+        "deployment",
+        "nixpacks",
+        "coolify",
+        "storage-boxx"
+      ],
+      "timestamp": "2025-07-24T19:41:40.071Z",
+      "context": "Deployment troubleshooting for Storage Boxx PHP app",
+      "accessCount": 0,
+      "lastAccessed": "2025-07-24T19:41:40.071Z",
+      "lastVerified": "2025-07-24T19:41:40.071Z",
+      "status": "fresh"
+    },
+    {
+      "id": "mem_1753386342147_j6x1i1qvx",
+      "content": "Successfully created complete Docker deployment setup for Storage Boxx including: Dockerfile with PHP 8.2-Apache, docker-compose.yml with MySQL/PostgreSQL/Redis, .env.production template, Apache config for Core Boxx framework, enhanced health.php monitoring, and DEPLOY-COOLIFY.md guide. This addresses the \"no available server\" and \"bad gateway\" errors from Nixpacks by providing proper Docker containerization.",
+      "type": "config",
+      "tags": [
+        "config",
+        "php",
+        "deployment",
+        "storage-boxx",
+        "docker",
+        "coolify",
+        "solution"
+      ],
+      "timestamp": "2025-07-24T19:45:42.147Z",
+      "context": "Storage Boxx Docker deployment solution",
+      "accessCount": 0,
+      "lastAccessed": "2025-07-24T19:45:42.147Z",
+      "lastVerified": "2025-07-24T19:45:42.147Z",
+      "status": "fresh"
     }
   ],
-  "lastUpdated": "2025-07-23T23:11:22.629Z"
+  "lastUpdated": "2025-07-24T19:45:42.147Z"
 }
