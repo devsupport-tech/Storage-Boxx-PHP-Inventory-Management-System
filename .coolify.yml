@@ -5,12 +5,6 @@
 type: nixpacks
 build_pack: nixpacks
 
-# Use the Coolify-optimized docker-compose file
-docker_compose_file: docker-compose.yaml
-
-# Main service that should receive traffic
-main_service: nginx
-
 # Port mapping - Coolify handles external access via reverse proxy
 # No explicit port mapping needed
 
