@@ -267,8 +267,10 @@ var dlv = {
 
 // (M) INIT MANAGE DELIVERIES
 window.addEventListener("load", () => {
-  // (M1) EXTRA STYLES FOR "ADD/EDIT ITEMS LIST"
-  document.head.appendChild(document.createElement("style")).innerHTML=".iQty,.iPrice{width:80px}";
+  // (M1) EXTRA STYLES FOR "ADD/EDIT ITEMS LIST" - CSP Safe
+  const styleElement = document.createElement("style");
+  styleElement.textContent = ".iQty,.iPrice{width:80px}";
+  document.head.appendChild(styleElement);
 
   // (M2) LIST DELIVERIES
   dlv.list();
