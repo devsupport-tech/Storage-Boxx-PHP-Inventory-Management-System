@@ -1,3 +1,7 @@
+# Explicitly set PHP as the provider to prevent Node.js detection
+[providers]
+php = "8.2"
+
 [phases.setup]
 nixPkgs = ["php82", "php82Extensions.pdo", "php82Extensions.pdo_mysql", "php82Extensions.pdo_pgsql", "php82Extensions.mbstring", "php82Extensions.zip", "php82Extensions.gd"]
 
@@ -13,3 +17,7 @@ cmds = [
 PHP_VERSION = "8.2"
 APP_ENV = "production"
 APP_DEBUG = "false"
+
+# Explicitly set start command to use PHP
+[start]
+cmd = "php -S 0.0.0.0:$PORT -t /app"
