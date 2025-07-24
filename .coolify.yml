@@ -11,11 +11,8 @@ docker_compose_file: docker-compose.yaml
 # Main service that should receive traffic
 main_service: nginx
 
-# Port mapping - Nginx web server for Coolify's reverse proxy
-ports:
-  - target: 80
-    published: 80
-    protocol: tcp
+# Port mapping - Coolify handles external access via reverse proxy
+# No explicit port mapping needed
 
 # Health check endpoint - Check Nginx status
 healthcheck:
