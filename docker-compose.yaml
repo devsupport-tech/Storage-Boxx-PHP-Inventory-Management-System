@@ -6,6 +6,8 @@ services:
     image: nginx:alpine
     container_name: storage-boxx-nginx
     restart: unless-stopped
+    expose:
+      - "80"
     volumes:
       - .:/var/www/html
     command: |
