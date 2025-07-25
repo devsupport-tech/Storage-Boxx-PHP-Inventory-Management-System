@@ -15,7 +15,7 @@ services:
       - "coolify.type=application"
       - "coolify.name=storage-boxx-app"
       - "traefik.enable=true"
-      - "traefik.http.routers.storage-boxx.rule=Host(\`inventory.thesupplycircuit.co\`)"
+      - "traefik.http.routers.storage-boxx.rule=Host(`inventory.thesupplycircuit.co`)"
       - "traefik.http.services.storage-boxx.loadbalancer.server.port=80"
     environment:
       - APP_ENV=production
