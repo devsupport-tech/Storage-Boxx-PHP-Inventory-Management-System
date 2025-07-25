@@ -1,16 +1,16 @@
 # Coolify Configuration for Storage Boxx PHP Inventory Management System
 # This file tells Coolify how to deploy this application
 
-# Use Nixpacks for PHP deployment
-type: nixpacks
-build_pack: nixpacks
+# Use Docker Compose for deployment
+type: docker-compose
+build_pack: docker-compose
 
-# Port mapping - Coolify handles external access via reverse proxy
-# No explicit port mapping needed
+# Main service that should receive traffic
+main_service: app
 
-# Health check endpoint - Check Nginx status
+# Health check endpoint
 healthcheck:
-  test: ["CMD", "curl", "-f", "http://localhost/health"]
+  test: ["CMD", "curl", "-f", "http://localhost/health.php"]
   interval: 30s
   timeout: 10s
   retries: 3

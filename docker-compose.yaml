@@ -8,6 +8,12 @@ services:
     restart: unless-stopped
     ports:
       - "8000:80"
+    expose:
+      - "80"
+    labels:
+      - "coolify.managed=true"
+      - "coolify.type=application"
+      - "coolify.name=storage-boxx-app"
     environment:
       - APP_ENV=production
       - APP_DEBUG=false
