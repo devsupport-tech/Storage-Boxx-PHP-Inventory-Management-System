@@ -282,7 +282,27 @@
       "lastAccessed": "2025-07-25T15:06:05.807Z",
       "lastVerified": "2025-07-25T15:06:05.807Z",
       "status": "fresh"
+    },
+    {
+      "id": "mem_1753458533223_ld8n09jlr",
+      "content": "Container is running but health.php returning 503 errors. Apache working fine but application has database or environment variable issues. Need to check database connectivity and environment setup.",
+      "type": "config",
+      "tags": [
+        "config",
+        "php",
+        "database",
+        "503-error",
+        "health-check",
+        "environment",
+        "storage-boxx"
+      ],
+      "timestamp": "2025-07-25T15:48:53.223Z",
+      "context": "Storage Boxx deployment debugging - 503 errors",
+      "accessCount": 0,
+      "lastAccessed": "2025-07-25T15:48:53.223Z",
+      "lastVerified": "2025-07-25T15:48:53.223Z",
+      "status": "fresh"
     }
   ],
-  "lastUpdated": "2025-07-25T15:06:05.807Z"
+  "lastUpdated": "2025-07-25T15:48:53.223Z"
 }
