@@ -1,33 +1,34 @@
-# Storage Boxx - Optimized Production Dockerfile
+# Storage Boxx - Simplified Production Dockerfile
 FROM php:8.2-apache
 
-# Install system dependencies and PHP extensions
+# Set environment to avoid interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies first
 RUN apt-get update && apt-get install -y \
     libzip-dev \
     libpng-dev \
-    libjpeg-dev \
+    libjpeg62-turbo-dev \
     libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
     libpq-dev \
-    redis-tools \
     unzip \
-    git \
     curl \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-        gd \
-        mbstring \
-        xml \
-        zip \
-        intl \
-        opcache \
-        pdo \
-        pdo_mysql \
-        pdo_pgsql \
-        openssl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions one by one to isolate issues
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install gd
+RUN docker-php-ext-install mbstring
+RUN docker-php-ext-install xml
+RUN docker-php-ext-install zip
+RUN docker-php-ext-install intl
+RUN docker-php-ext-install opcache
+RUN docker-php-ext-install pdo
+RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install pdo_pgsql
 
 # Enable Apache modules required for Storage Boxx
 RUN a2enmod rewrite headers expires deflate

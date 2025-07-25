@@ -263,7 +263,26 @@
       "lastAccessed": "2025-07-24T19:45:42.147Z",
       "lastVerified": "2025-07-24T19:45:42.147Z",
       "status": "fresh"
+    },
+    {
+      "id": "mem_1753455965807_xt1in0k1r",
+      "content": "Docker build failing with mysterious environment variables 'Nk' and 'COoNZ' not set, plus PHP extension installation failure. Need to fix Dockerfile and check for environment variable corruption.",
+      "type": "config",
+      "tags": [
+        "config",
+        "php",
+        "docker",
+        "build-error",
+        "environment-variables",
+        "storage-boxx"
+      ],
+      "timestamp": "2025-07-25T15:06:05.807Z",
+      "context": "Storage Boxx Docker deployment debugging",
+      "accessCount": 0,
+      "lastAccessed": "2025-07-25T15:06:05.807Z",
+      "lastVerified": "2025-07-25T15:06:05.807Z",
+      "status": "fresh"
     }
   ],
-  "lastUpdated": "2025-07-24T19:45:42.147Z"
+  "lastUpdated": "2025-07-25T15:06:05.807Z"
 }
