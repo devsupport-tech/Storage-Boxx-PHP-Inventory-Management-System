@@ -1,13 +1,12 @@
 version: '3.8'
 
 services:
-  # Storage Boxx Application
+  # Storage Boxx Application - Coolify Version (no port mapping)
   app:
     build: .
     container_name: storage-boxx-app
     restart: unless-stopped
-    ports:
-      - "8000:80"
+    # No ports section - Coolify handles this automatically
     environment:
       - APP_ENV=production
       - APP_DEBUG=false
@@ -55,8 +54,6 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
       - ./docker/mysql/init:/docker-entrypoint-initdb.d
-    ports:
-      - "3306:3306"
     networks:
       - storage-network
     command: --default-authentication-plugin=mysql_native_password
@@ -73,8 +70,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./docker/postgresql/init:/docker-entrypoint-initdb.d
-    ports:
-      - "5432:5432"
     networks:
       - storage-network
 
@@ -86,35 +81,8 @@ services:
     command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
     volumes:
       - redis_data:/data
-    ports:
-      - "6379:6379"
     networks:
       - storage-network
-
-  # Database Administration (Development)
-  adminer:
-    image: adminer:4-standalone
-    container_name: storage-boxx-adminer
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-    networks:
-      - storage-network
-    profiles:
-      - development
-
-  # Email Testing (Development)
-  mailhog:
-    image: mailhog/mailhog:latest
-    container_name: storage-boxx-mailhog
-    restart: unless-stopped
-    ports:
-      - "1025:1025"
-      - "8025:8025"
-    networks:
-      - storage-network
-    profiles:
-      - development
 
 volumes:
   storage_data:
