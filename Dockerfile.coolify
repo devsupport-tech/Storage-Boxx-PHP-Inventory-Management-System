@@ -65,8 +65,8 @@ RUN curl --version
 
 EXPOSE 80
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD /usr/local/bin/healthcheck.sh
+# Health check disabled temporarily for debugging
+# HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+#     CMD /usr/local/bin/healthcheck.sh
 
 CMD ["apache2-foreground"]
