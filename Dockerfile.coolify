@@ -53,9 +53,12 @@ session.save_path = "/var/www/html/storage/sessions"\n\
 log_errors = On\n\
 error_log = /var/www/html/storage/logs/php-error.log' > /usr/local/etc/php/conf.d/storage-boxx.ini
 
-# Simple health check
-RUN echo '#!/bin/bash\nif [ -f /var/www/html/health.php ]; then\n  curl -f http://localhost/health.php\nelse\n  curl -f http://localhost/\nfi' > /usr/local/bin/healthcheck.sh && \
+# Simple health check script
+RUN echo '#!/bin/bash\n# Health check for Storage Boxx\nset -e\nif [ -f /var/www/html/health.php ]; then\n  curl -f -s -o /dev/null http://localhost/health.php || exit 1\nelse\n  curl -f -s -o /dev/null http://localhost/ || exit 1\nfi\necho "Health check passed"' > /usr/local/bin/healthcheck.sh && \
     chmod +x /usr/local/bin/healthcheck.sh
+
+# Test that curl is available
+RUN curl --version
 
 EXPOSE 80
 
