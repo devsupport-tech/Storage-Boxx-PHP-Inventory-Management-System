@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # Storage Boxx - Single Container with External Services
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.simple
+    container_name: storage-boxx-simple
+    restart: unless-stopped
+    environment:
+      # Application
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=${APP_URL:-https://inventory.thesupplycircuit.co}
+      
+      # Use Supabase as primary database
+      - DB_CONNECTION=pgsql
+      - DB_HOST=${SUPABASE_HOST:-db.gchxpxrrsinxcwxmkjzp.supabase.co}
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=${SUPABASE_PASSWORD}
+      
+      # Supabase configuration
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      
+      # JWT and security
+      - JWT_SECRET=${JWT_SECRET}
+      - PUSH_PUBLIC_KEY=${PUSH_PUBLIC_KEY}
+      - PUSH_PRIVATE_KEY=${PUSH_PRIVATE_KEY}
+      
+      # File-based sessions (no Redis needed)
+      - SESSION_DRIVER=files
+      - CACHE_DRIVER=files
+      
+      # Mail (use external SMTP)
+      - MAIL_DRIVER=smtp
+      - MAIL_HOST=${MAIL_HOST:-smtp.gmail.com}
+      - MAIL_PORT=587
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_ENCRYPTION=tls
+      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}
+      
+    volumes:
+      - storage_data:/var/www/html/storage
+    ports:
+      - "80:80"
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  storage_data:
+    driver: local

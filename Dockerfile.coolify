@@ -1,0 +1,66 @@
+# Storage Boxx - Single Container for Coolify
+FROM php:8.2-apache
+
+# Set environment
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    libzip-dev libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
+    libonig-dev libxml2-dev libpq-dev sqlite3 libsqlite3-dev \
+    unzip curl && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install -j$(nproc) gd mbstring xml zip intl opcache pdo pdo_mysql pdo_pgsql pdo_sqlite && \
+    a2enmod rewrite headers expires deflate && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy application
+COPY . /var/www/html/
+
+# Configure Apache with simple config
+RUN echo '<VirtualHost *:80>\n\
+    DocumentRoot /var/www/html\n\
+    <Directory /var/www/html>\n\
+        AllowOverride All\n\
+        Require all granted\n\
+        DirectoryIndex index.php\n\
+        RewriteEngine On\n\
+        RewriteRule ^health\.php$ - [L]\n\
+        RewriteRule ^api/([^/]+)/([^/]+)/?$ index.php [QSA,L]\n\
+        RewriteRule ^assets/ - [L]\n\
+        RewriteCond %{REQUEST_FILENAME} !-f\n\
+        RewriteCond %{REQUEST_FILENAME} !-d\n\
+        RewriteRule ^(.*)$ index.php [QSA,L]\n\
+    </Directory>\n\
+</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
+
+# Create storage and set permissions
+RUN mkdir -p /var/www/html/storage/{cache,logs,sessions,uploads,database} && \
+    chown -R www-data:www-data /var/www/html/storage && \
+    chmod -R 775 /var/www/html/storage && \
+    chown -R www-data:www-data /var/www/html && \
+    chmod 644 /var/www/html/*.php
+
+# Configure PHP
+RUN echo 'memory_limit = 256M\n\
+upload_max_filesize = 32M\n\
+post_max_size = 64M\n\
+max_execution_time = 300\n\
+session.save_path = "/var/www/html/storage/sessions"\n\
+log_errors = On\n\
+error_log = /var/www/html/storage/logs/php-error.log' > /usr/local/etc/php/conf.d/storage-boxx.ini
+
+# Simple health check
+RUN echo '#!/bin/bash\nif [ -f /var/www/html/health.php ]; then\n  curl -f http://localhost/health.php\nelse\n  curl -f http://localhost/\nfi' > /usr/local/bin/healthcheck.sh && \
+    chmod +x /usr/local/bin/healthcheck.sh
+
+EXPOSE 80
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD /usr/local/bin/healthcheck.sh
+
+CMD ["apache2-foreground"]

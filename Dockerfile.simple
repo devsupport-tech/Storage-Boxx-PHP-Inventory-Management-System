@@ -1,0 +1,75 @@
+# Storage Boxx - Simple Single Container
+FROM php:8.2-apache
+
+# Set environment to avoid interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libonig-dev \
+    libxml2-dev \
+    libpq-dev \
+    sqlite3 \
+    libsqlite3-dev \
+    unzip \
+    curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+        gd \
+        mbstring \
+        xml \
+        zip \
+        intl \
+        opcache \
+        pdo \
+        pdo_mysql \
+        pdo_pgsql \
+        pdo_sqlite
+
+# Enable Apache modules
+RUN a2enmod rewrite headers expires deflate
+
+# Configure Apache
+COPY docker/apache/storage-boxx.conf /etc/apache2/sites-available/000-default.conf
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy application files
+COPY . /var/www/html/
+
+# Create storage directories with proper permissions
+RUN mkdir -p /var/www/html/storage/cache \
+             /var/www/html/storage/logs \
+             /var/www/html/storage/sessions \
+             /var/www/html/storage/uploads \
+             /var/www/html/storage/database \
+    && chown -R www-data:www-data /var/www/html/storage \
+    && chmod -R 775 /var/www/html/storage \
+    && chown -R www-data:www-data /var/www/html \
+    && chmod 644 /var/www/html/index.php \
+    && chmod 644 /var/www/html/health.php
+
+# Configure PHP
+COPY docker/php/php.ini /usr/local/etc/php/conf.d/storage-boxx.ini
+
+# Simple health check
+RUN echo '#!/bin/bash\ncurl -f http://localhost/health.php || exit 1' > /usr/local/bin/healthcheck.sh \
+    && chmod +x /usr/local/bin/healthcheck.sh
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD /usr/local/bin/healthcheck.sh
+
+# Expose port
+EXPOSE 80
+
+# Start Apache
+CMD ["apache2-foreground"]
