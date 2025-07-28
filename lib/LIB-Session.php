@@ -33,7 +33,7 @@ class Session extends Core {
       $token->aud == HOST_NAME &&
       $token->nbf <= $now;
       if ($valid && JWT_EXPIRE!=0) {
-        $valid = isset($token->exp) ? ($token->exp < $now) : false;
+        $valid = isset($token->exp) ? ($token->exp > $now) : false;
       }
     }
 
