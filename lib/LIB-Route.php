@@ -23,7 +23,7 @@ class Route extends Core {
     // http://site.com/ > $this->path = "/"
     // http://site.com/hello/world/ > $this->path = "hello/world/"
     $this->path = preg_replace("~/{2,}~", "/", $this->path);
-    if (substr($this->path, 0, strlen(HOST_BASE_PATH)) == HOST_BASE_PATH) {
+    if (HOST_BASE_PATH && substr($this->path, 0, strlen(HOST_BASE_PATH)) == HOST_BASE_PATH) {
       $this->path = substr($this->path, strlen(HOST_BASE_PATH));
     }
     $this->path = rtrim($this->path, "/\\") . "/";
