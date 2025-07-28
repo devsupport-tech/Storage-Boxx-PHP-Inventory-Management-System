@@ -48,11 +48,27 @@ try {
     $sql = file_get_contents($sqlFile);
     $result['steps'][] = 'SQL schema file loaded: SUCCESS';
     
-    // Split SQL into individual statements
-    $statements = array_filter(
-        array_map('trim', explode(';', $sql)),
-        function($stmt) { return !empty($stmt) && !preg_match('/^\s*--/', $stmt); }
-    );
+    // Parse SQL statements properly (handle multi-line statements)
+    $statements = [];
+    $currentStatement = '';
+    $lines = explode("\n", $sql);
+    
+    foreach ($lines as $line) {
+        $line = trim($line);
+        
+        // Skip empty lines and comments
+        if (empty($line) || strpos($line, '--') === 0) {
+            continue;
+        }
+        
+        $currentStatement .= $line . " ";
+        
+        // Check if statement ends with semicolon
+        if (substr(rtrim($line), -1) === ';') {
+            $statements[] = trim($currentStatement);
+            $currentStatement = '';
+        }
+    }
     
     $result['steps'][] = 'Found ' . count($statements) . ' SQL statements';
     
@@ -60,8 +76,11 @@ try {
     $executed = 0;
     $errors = [];
     
-    foreach ($statements as $statement) {
+    foreach ($statements as $index => $statement) {
+        if (empty($statement)) continue;
+        
         try {
+            $result['steps'][] = 'Executing statement ' . ($index + 1) . ': ' . substr($statement, 0, 50) . '...';
             $pdo->exec($statement);
             $executed++;
         } catch (PDOException $e) {
@@ -70,7 +89,8 @@ try {
                 $result['steps'][] = 'Skipped existing table/index';
                 continue;
             }
-            $errors[] = 'Error executing statement: ' . $e->getMessage();
+            $errors[] = 'Error executing statement ' . ($index + 1) . ': ' . $e->getMessage();
+            $result['steps'][] = 'FAILED statement ' . ($index + 1) . ': ' . $e->getMessage();
         }
     }
     
